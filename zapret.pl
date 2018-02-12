@@ -495,10 +495,18 @@ sub parseContent
 	{
 		if(ref($content->{domain}) eq 'ARRAY')
 		{
-			foreach( @{$content->{domain}} )
+			foreach my $domain (@{$content->{domain}})
 			{
-				push @domains, $_;
+				if(ref($domain) eq 'HASH')
+				{
+					push @domains, $domain->{content};
+				} else {
+					push @domains, $domain;
+				}
 			}
+		} elsif (ref($content->{domain}) eq 'HASH')
+		{
+			push @domains, $content->{domain}->{content};
 		} else {
 			push @domains, $content->{domain};
 		}
@@ -510,10 +518,18 @@ sub parseContent
 	{
 		if( ref($content->{url}) eq 'ARRAY' )
 		{
-			foreach( @{$content->{url}} )
+			foreach my $url (@{$content->{url}})
 			{
-				push @urls, $_;
+				if(ref($url) eq 'HASH')
+				{
+					push @urls, $url->{content};
+				} else {
+					push @urls, $url;
+				}
 			}
+		} elsif (ref($content->{url}) eq 'HASH')
+		{
+			push @urls, $content->{url}->{content};
 		} else {
 			push @urls, $content->{url};
 		}
@@ -525,10 +541,18 @@ sub parseContent
 	{
 		if( ref($content->{ip}) eq 'ARRAY' )
 		{
-			foreach( @{$content->{ip}} )
+			foreach my $ip (@{$content->{ip}})
 			{
-				push @ips, $_;
+				if(ref($ip) eq 'HASH')
+				{
+					push @ips, $ip->{content};
+				} else {
+					push @ips, $ip;
+				}
 			}
+		} elsif(ref($content->{ip}) eq 'HASH')
+		{
+			push @ips, $content->{ip}->{content};
 		} else {
 			push @ips, $content->{ip};
 		}
@@ -540,10 +564,18 @@ sub parseContent
 	{
 		if( ref($content->{ipSubnet}) eq 'ARRAY' )
 		{
-			foreach( @{$content->{ipSubnet}} )
+			foreach my $subnet ( @{$content->{ipSubnet}} )
 			{
-				push @subnets, $_;
+				if(ref($subnet) eq 'HASH')
+				{
+					push @subnets, $subnet->{content};
+				} else {
+					push @subnets, $subnet;
+				}
 			}
+		} elsif (ref($content->{ipSubnet}) eq 'HASH')
+		{
+			push @subnets, $content->{ipSubnet}->{content};
 		} else {
 			push @subnets, $content->{ipSubnet};
 		}
