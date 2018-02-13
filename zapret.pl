@@ -725,7 +725,7 @@ sub processNew {
 				my $scheme = $uri->scheme();
 				if($scheme ne "http" && $scheme ne "https")
 				{
-					$logger->error("Unsupported scheme in url: $url for resolving.");
+					$logger->warn("Unsupported scheme in the url: $url");
 				} else {
 					my $url_domain = $uri->host();
 					#my @res = ( $url =~ m!^(?:http://|https://)?([^(/|\?)]+)!i );
