@@ -593,6 +593,12 @@ sub parseDump
 	my $xml = new XML::Simple;
 	my $data = $xml->XMLin($xml_file, ForceArray=> 0, KeyAttr => {});
 
+	if($data->{formatVersion} ne $RKN_DUMP_VERSION)
+	{
+		$logger->error("Incompatible dump version $data->{formatVersion}. Exiting");
+		Mail("Incompatible dump version $data->{formatVersion}", "zapret alert!");
+		exit 1;
+	}
 	my $ref_type = ref($data->{content});
 	eval {
 		if($ref_type eq 'ARRAY')
@@ -1146,6 +1152,7 @@ sub Resolve
 sub Mail
 {
 	my $text = shift;
+	my $subj = shift || "zapret update!";
 	foreach (@mail_to)
 	{
 		eval {
@@ -1170,7 +1177,7 @@ sub Mail
 			$smtp->mail( $smtp_from );
 			$smtp->recipient( $to );
 			my $email = Email::MIME->create(
-				header_str => [ From => $smtp_from, To => $to, Subject => 'zapret update!'],
+				header_str => [ From => $smtp_from, To => $to, Subject => $subj],
 				attributes => {
 					content_type => "text/plain",
 					charset      => "UTF-8",
