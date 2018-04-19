@@ -816,6 +816,7 @@ sub processNew {
 		{
 			foreach my $ip ( @{$NEW{$d_id}->{ips}} )
 			{
+				next if(!defined $ip);
 				if($need_to_block_ip)
 				{
 					if( !defined( $OLD_ONLY_IPS{$ip} ) )
