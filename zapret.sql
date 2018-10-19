@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.1.73, for redhat-linux-gnu (x86_64)
 --
--- Host: localhost    Database: rkn
+-- Host: localhost    Database: rkn1
 -- ------------------------------------------------------
--- Server version	5.1.73
+-- Server version	5.5.5-10.2.8-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,12 +24,13 @@ DROP TABLE IF EXISTS `zap2_domains`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `zap2_domains` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
-  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_add` timestamp NOT NULL DEFAULT current_timestamp(),
   `record_id` int(6) unsigned NOT NULL,
-  `domain` varchar(255) NOT NULL,
-  `domain_fixed` varchar(60) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `domain` varchar(255) DEFAULT NULL,
+  `domain_fixed` varchar(60) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `record_id_idx` (`record_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=108790 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,13 +87,12 @@ DROP TABLE IF EXISTS `zap2_ips`;
 CREATE TABLE `zap2_ips` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `record_id` int(6) unsigned NOT NULL,
-  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_add` timestamp NOT NULL DEFAULT current_timestamp(),
   `ip` varbinary(16) DEFAULT NULL,
-  `resolved` int(1) NOT NULL DEFAULT '0',
-  `domain` varchar(255) NOT NULL,
+  `resolved` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `record_id` (`record_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=381995 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,10 +105,11 @@ DROP TABLE IF EXISTS `zap2_only_ips`;
 CREATE TABLE `zap2_only_ips` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `record_id` int(6) unsigned NOT NULL,
-  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_add` timestamp NOT NULL DEFAULT current_timestamp(),
   `ip` varbinary(16) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `record_id_idx` (`record_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=257821 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,16 +121,17 @@ DROP TABLE IF EXISTS `zap2_records`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `zap2_records` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_add` timestamp NOT NULL DEFAULT current_timestamp(),
   `decision_id` int(10) unsigned NOT NULL,
   `decision_date` varchar(50) DEFAULT NULL,
-  `decision_num` varchar(50) DEFAULT NULL,
+  `decision_num` text DEFAULT NULL,
   `decision_org` varchar(50) DEFAULT NULL,
   `include_time` varchar(50) DEFAULT NULL,
   `entry_type` int(3) unsigned DEFAULT NULL,
+  `hash` varchar(60) DEFAULT NULL,
   KEY `id` (`id`),
   KEY `decision_id` (`decision_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=190413 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,17 +144,9 @@ DROP TABLE IF EXISTS `zap2_settings`;
 CREATE TABLE `zap2_settings` (
   `param` varchar(255) NOT NULL,
   `value` longtext NOT NULL,
-  KEY `param` (`param`)
+  UNIQUE KEY `param` (`param`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
-INSERT INTO `zap2_settings` (`param`, `value`) VALUES
-('lastDumpDate', '1406930960'),
-('lastAction', 'getResult'),
-('lastResult', 'got'),
-('lastCode', '25ff77c0d152d7544ba2f72a95cbff50'),
-('lastActionDate', '1406929097'),
-('lastDump', '<?xml version="1.0" encoding="windows-1251"?>\r\n<reg:register updateTime="2014-02-02T12:00:00+04:00" updateTimeUrgently="2014-02-01T11:00:00" xmlns:reg="http://rsoc.ru" xmlns:tns="http://rsoc.ru">\r\n<content id="1101" includeTime="2013-12-01T10:00:05">\r\n        <decision date="2013-12-01" number="9" org="');
 
 --
 -- Table structure for table `zap2_subnets`
@@ -163,11 +157,12 @@ DROP TABLE IF EXISTS `zap2_subnets`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `zap2_subnets` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
-  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_add` timestamp NOT NULL DEFAULT current_timestamp(),
   `record_id` int(6) unsigned NOT NULL,
-  `subnet` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `subnet` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `record_id_idx` (`record_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,12 +174,13 @@ DROP TABLE IF EXISTS `zap2_urls`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `zap2_urls` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
-  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_add` timestamp NOT NULL DEFAULT current_timestamp(),
   `record_id` int(6) unsigned NOT NULL,
   `url` text NOT NULL,
-  `url_fixed` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `url_fixed` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `record_id_idx` (`record_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=85378 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -196,4 +192,4 @@ CREATE TABLE `zap2_urls` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-30 10:59:07
+-- Dump completed on 2018-10-19 22:30:03
