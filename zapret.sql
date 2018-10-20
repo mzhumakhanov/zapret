@@ -30,7 +30,7 @@ CREATE TABLE `zap2_domains` (
   `domain_fixed` varchar(60) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `record_id_idx` (`record_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=108790 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `zap2_ips` (
   `resolved` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `record_id` (`record_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=381995 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +109,7 @@ CREATE TABLE `zap2_only_ips` (
   `ip` varbinary(16) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `record_id_idx` (`record_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=257821 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +131,7 @@ CREATE TABLE `zap2_records` (
   `hash` varchar(60) DEFAULT NULL,
   KEY `id` (`id`),
   KEY `decision_id` (`decision_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=190413 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,6 +148,14 @@ CREATE TABLE `zap2_settings` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+INSERT INTO `zap2_settings` (`param`, `value`) VALUES
+('lastDumpDate', '1406930960'),
+('lastAction', 'getResult'),
+('lastResult', 'got'),
+('lastCode', '25ff77c0d152d7544ba2f72a95cbff50'),
+('lastActionDate', '1406929097'),
+('lastDump', '<?xml version="1.0" encoding="windows-1251"?>\r\n<reg:register updateTime="2014-02-02T12:00:00+04:00" updateTimeUrgently="2014-02-01T11:00:00" xmlns:reg="http://rsoc.ru" xmlns:tns="http://rsoc.ru">\r\n<content id="1101" includeTime="2013-12-01T10:00:05">\r\n        <decision date="2013-12-01" number="9" org="');
+
 --
 -- Table structure for table `zap2_subnets`
 --
@@ -162,7 +170,7 @@ CREATE TABLE `zap2_subnets` (
   `subnet` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `record_id_idx` (`record_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,7 +188,7 @@ CREATE TABLE `zap2_urls` (
   `url_fixed` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `record_id_idx` (`record_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=85378 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
