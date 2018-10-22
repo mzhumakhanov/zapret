@@ -47,7 +47,9 @@ use constant
 	DOMAIN_COL_NAME => "domain",
 
 	SUBNET_TABLE => "zap2_subnets",
-	SUBNET_COL_NAME => "subnet"
+	SUBNET_COL_NAME => "subnet",
+
+	SUPPORTED_DUMP_VERSION => 2.4
 };
 
 
@@ -1209,10 +1211,12 @@ sub parseDump
 				print "Not found attribute formatVersion!\n";
 				return -3;
 			}
-			if($register{formatVersion} ne "2.3")
+			my $format_version = $register{formatVersion};
+			$format_version += 0.0;
+			if($format_version > SUPPORTED_DUMP_VERSION)
 			{
 				$reader->close();
-				print "Reestr version mismatch!\n";
+				print "Found unsupported format version $format_version\n";
 				return -4;
 			}
 		}
@@ -1342,9 +1346,9 @@ sub checkDumpDate
 	my $lastDumpDateEx = getLastDumpDate();
 	my $dump_version = $lastDumpDateEx->{dumpFormatVersion};
 	$dump_version += 0.0;
-	if($dump_version > $RKN_DUMP_VERSION)
+	if($dump_version > SUPPORTED_DUMP_VERSION)
 	{
-		die "Dump version mismatch. Supported $RKN_DUMP_VERSION is lower than in the dump $lastDumpDateEx->{dumpFormatVersion}\n";
+		die "Dump version mismatch. Supported ".SUPPORTED_DUMP_VERSION." is lower than in the dump $lastDumpDateEx->{dumpFormatVersion}\n";
 	}
 	if(defined $lastDocVersion && $lastDumpDateEx->{docVersion} ne $lastDocVersion)
 	{
@@ -1444,9 +1448,9 @@ sub getResult
 	}
 	my $dump_version = $res->{dumpFormatVersion};
 	$dump_version += 0.0;
-	if($dump_version > $RKN_DUMP_VERSION)
+	if($dump_version > SUPPORTED_DUMP_VERSION)
 	{
-		die "Dump version $res->{dumpFormatVersion} in the dump is higher than supported $RKN_DUMP_VERSION\n";
+		die "Dump version $res->{dumpFormatVersion} in the dump is higher than supported ".SUPPORTED_DUMP_VERSION."\n";
 	}
 	return decode_base64($res->{registerZipArchive});
 }
