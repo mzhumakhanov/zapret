@@ -1068,6 +1068,10 @@ sub processContent
 		{
 			processDomain($content, $db_content);
 		}
+		if(defined $content->{ip}{value} || defined $content->{ipv6}{value})
+		{
+			processOnlyIP($content, $db_content);
+		}
 	} else {
 		if($content->{blockType} eq "domain" || $content->{blockType} eq "domain-mask")
 		{
@@ -1297,6 +1301,16 @@ sub parseOurBlacklist
 		if($url =~ /^http\:\/\// || $url =~ /^https\:\/\//)
 		{
 			push(@{$content{url}{value}}, $url);
+		} elsif ($url =~ /^ip\:\/\//)
+		{
+			my $ip = $url;
+			$ip =~ s/^ip\:\/\///;
+			push(@{$content{ip}{value}}, $ip);
+		} elsif ($url =~ /^ipv6\:\/\//)
+		{
+			my $ip = $url;
+			$ip =~ s/^ipv6\:\/\///;
+			push(@{$content{ipv6}{value}}, $ip);
 		} else {
 			if($url =~ /^\*\./ || $url !~ /\//)
 			{
