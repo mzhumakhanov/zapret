@@ -1571,6 +1571,8 @@ sub convertIPv6
 	my $arr = shift;
 	foreach my $ip (@{$arr})
 	{
+		my @octs = split(/\:/, $ip);
+		$ip =~ s/\:\:$/\:0/g if(scalar(@octs) > 6);
 		my $ipa = new Net::IP($ip);
 		$ip = $ipa->ip();
 	}
